@@ -18,7 +18,7 @@ public class UserProducer {
 
     public void publishMessageEmail(User userModel) {
         var emailDto = new EmailDTO();
-        emailDto.setUserId(userModel.getUserId());
+        emailDto.setUserId(userModel.getId());
         emailDto.setEmailTo(userModel.getEmail());
         emailDto.setSubject("Cadastro realizado com sucesso!");
         emailDto.setText(userModel.getName() + ", seja bem vindo(a)! \nAgradecemos o seu cadastro, aproveite agora todos os recursos da nossa plataforma!");

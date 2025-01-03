@@ -1,6 +1,8 @@
 package com.system.estoque.services.impl;
 
+import com.system.estoque.dtos.UserDTO;
 import com.system.estoque.entities.User;
+import com.system.estoque.mappers.UserMapper;
 import com.system.estoque.producers.UserProducer;
 import com.system.estoque.repositories.UserRepository;
 import com.system.estoque.services.UserService;
@@ -14,11 +16,16 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserProducer userProducer;
+    private final UserMapper userMapper;
 
     @Transactional
-    public User create(User user) {
-        user = userRepository.save(user);
+    public UserDTO create(UserDTO userDTO) {
+        User user = userMapper.toEntity(userDTO);
+
+        userRepository.save(user);
+
         userProducer.publishMessageEmail(user);
-        return user;
+
+        return userMapper.toDto(user);
     }
 }
