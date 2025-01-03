@@ -1,6 +1,6 @@
 package com.system.estoque.controllers;
 
-import com.system.estoque.dtos.UserDto;
+import com.system.estoque.dtos.UserDTO;
 import com.system.estoque.entities.User;
 import com.system.estoque.services.UserService;
 import jakarta.validation.Valid;
@@ -15,16 +15,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("api/user")
+@RequiredArgsConstructor
 public class UserController {
 
-    final UserService userService;
-
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
+    private final UserService userService;
+    
 
     @PostMapping("/users")
-    public ResponseEntity<User> saveUser(@RequestBody @Valid UserDto userDto) {
+    public ResponseEntity<User> saveUser(@RequestBody @Valid UserDTO userDto) {
         var user = new User();
         BeanUtils.copyProperties(userDto, user);
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.create(user));

@@ -5,18 +5,15 @@ import com.system.estoque.producers.UserProducer;
 import com.system.estoque.repositories.UserRepository;
 import com.system.estoque.services.UserService;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    final UserRepository userRepository;
-    final UserProducer userProducer;
-
-    public UserServiceImpl(UserRepository userRepository, UserProducer userProducer) {
-        this.userRepository = userRepository;
-        this.userProducer = userProducer;
-    }
+    private final UserRepository userRepository;
+    private final UserProducer userProducer;
 
     @Transactional
     public User create(User user) {
