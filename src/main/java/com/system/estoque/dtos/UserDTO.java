@@ -22,5 +22,20 @@ public class UserDTO implements Serializable {
 
     @JsonView({AppGroup.Response.class, AppGroup.ResponsePage.class, AppGroup.Request.class})
     @NotNull(message = "Preenchimento obrigatório")
+    private String userName;
+
+    @JsonView({AppGroup.Response.class, AppGroup.ResponsePage.class, AppGroup.Request.class})
+    @NotNull(message = "Preenchimento obrigatório")
     private String email;
+
+    @JsonView({AppGroup.Response.class, AppGroup.ResponsePage.class, AppGroup.Request.class})
+    @NotNull(message = "Preenchimento obrigatório")
+    private String password;
+
+    @JsonView({AppGroup.Response.class, AppGroup.ResponsePage.class, AppGroup.Request.class})
+    @NotNull(message = "Preenchimento obrigatório")
+    private String cpf;
+
+    @JsonView({AppGroup.Response.class, AppGroup.ResponsePage.class, AppGroup.Request.class})
+    private String phoneNumber;
 }

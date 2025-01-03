@@ -14,10 +14,19 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID Id;
+    private UUID id;
 
     private String name;
 
+    private String userName;
+
     private String email;
+
+    private String password;
+
+    private String phoneNumber;
+
+    private String cpf;
+
 
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.system.estoque.dtos.UserDTO;
 import com.system.estoque.dtos.groups.AppGroup;
 import com.system.estoque.services.UserService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("api/user")
 @RequiredArgsConstructor
+@Tag(name = "User")
 public class UserController {
 
     private final UserService userService;

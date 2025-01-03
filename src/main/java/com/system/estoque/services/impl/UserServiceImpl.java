@@ -20,6 +20,12 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     public UserDTO create(UserDTO userDTO) {
+
+        userDTO.setName(userDTO.getName().toUpperCase());
+
+//        String encryptedPassword = new BCryptPasswordEncoder().encode(userDTO.getPassword());
+//        user.setPassword(encryptedPassword);
+
         User user = userMapper.toEntity(userDTO);
 
         userRepository.save(user);
