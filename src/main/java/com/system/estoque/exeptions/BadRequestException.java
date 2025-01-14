@@ -1,4 +1,4 @@
-package com.system.estoque.exceptions;
+package com.system.estoque.exeptions;
 
 public class BadRequestException extends RuntimeException {
     public BadRequestException() {

@@ -2,7 +2,7 @@ package com.system.estoque.services.impl;
 
 import com.system.estoque.dtos.UserDTO;
 import com.system.estoque.entities.User;
-import com.system.estoque.exceptions.BadRequestException;
+import com.system.estoque.exeptions.BadRequestException;
 import com.system.estoque.mappers.UserMapper;
 import com.system.estoque.producers.UserProducer;
 import com.system.estoque.repositories.UserRepository;
@@ -25,7 +25,11 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public UserDTO create(UserDTO userDTO) {
 
-        userDTO.setName(userDTO.getName().toUpperCase());
+        if (userDTO.getName() != null) {
+            userDTO.setName(userDTO.getName().toUpperCase());
+        }
+
+        userDTO.setActive(true);
 
         User user = userMapper.toEntity(userDTO);
         userRepository.save(user);

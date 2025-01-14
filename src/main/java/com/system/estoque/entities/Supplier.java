@@ -1,5 +1,6 @@
 package com.system.estoque.entities;
 
+import com.system.estoque.entities.base.BaseSoftDeleteEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name = "suppliers")
-public class Supplier {
+public class Supplier extends BaseSoftDeleteEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

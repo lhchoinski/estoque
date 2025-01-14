@@ -31,6 +31,14 @@
             <column defaultValueBoolean="true" name="active" type="BOOLEAN">
                 <constraints nullable="false"/>
             </column>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp"/>
+            <column name="deleted_at" type="timestamp"/>
         </createTable>
 
         <addDefaultValue
@@ -57,10 +65,18 @@
             <column defaultValueBoolean="true" name="active" type="BOOLEAN">
                 <constraints nullable="false"/>
             </column>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp"/>
+            <column name="deleted_at" type="timestamp"/>
         </createTable>
     </changeSet>
 
-    <changeSet id="5" author="luiz">
+    <changeSet id="3" author="luiz">
         <createTable tableName="suppliers">
             <column name="id" type="INTEGER" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -80,11 +96,18 @@
             <column name="email" type="VARCHAR(255)">
                 <constraints nullable="true"/>
             </column>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp"/>
+            <column name="deleted_at" type="timestamp"/>
         </createTable>
     </changeSet>
 
-    <!-- Tabela de Stock Entries -->
-    <changeSet id="6" author="luiz">
+    <changeSet id="4" author="luiz">
         <createTable tableName="stock_entries">
             <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -104,7 +127,6 @@
         </createTable>
     </changeSet>
 
-    <!-- Adicionando Chave Estrangeira entre stock_entries e items -->
     <changeSet id="7" author="luiz">
         <addForeignKeyConstraint
                 baseTableName="stock_entries"
@@ -115,8 +137,7 @@
                 onDelete="CASCADE"/>
     </changeSet>
 
-    <!-- Tabela de Stock Exits -->
-    <changeSet id="8" author="luiz">
+    <changeSet id="5" author="luiz">
         <createTable tableName="stock_exits">
             <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -139,7 +160,7 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="4" author="luiz">
+    <changeSet id="6" author="luiz">
         <addForeignKeyConstraint
                 baseTableName="stock_exits"
                 baseColumnNames="item_id"

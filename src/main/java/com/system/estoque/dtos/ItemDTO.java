@@ -7,37 +7,24 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.util.UUID;
 
-@Setter
 @Getter
-public class UserDTO implements Serializable {
+@Setter
+public class ItemDTO implements Serializable {
 
     @JsonView({AppGroup.Response.class, AppGroup.ResponsePage.class})
-    private UUID id;
+    private Long id;
 
     @JsonView({AppGroup.Response.class, AppGroup.ResponsePage.class, AppGroup.Request.class})
     @NotNull(message = "{required_message}")
     private String name;
 
     @JsonView({AppGroup.Response.class, AppGroup.ResponsePage.class, AppGroup.Request.class})
-    @NotNull(message = "{required_message}")
-    private String userName;
+    private String description;
 
     @JsonView({AppGroup.Response.class, AppGroup.ResponsePage.class, AppGroup.Request.class})
     @NotNull(message = "{required_message}")
-    private String email;
-
-    @JsonView({AppGroup.Response.class, AppGroup.ResponsePage.class, AppGroup.Request.class})
-    @NotNull(message = "{required_message}")
-    private String password;
-
-    @JsonView({AppGroup.Response.class, AppGroup.ResponsePage.class, AppGroup.Request.class})
-    @NotNull(message = "{required_message}")
-    private String cpf;
-
-    @JsonView({AppGroup.Response.class, AppGroup.ResponsePage.class, AppGroup.Request.class})
-    private String phoneNumber;
+    private String price;
 
     @JsonView({AppGroup.Response.class, AppGroup.ResponsePage.class})
     private Boolean active;

@@ -1,5 +1,6 @@
 package com.system.estoque.entities;
 
+import com.system.estoque.entities.base.BaseSoftDeleteEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,10 +11,10 @@ import java.util.UUID;
 @Getter
 @Entity
 @Table(name = "users")
-public class User {
+public class User extends BaseSoftDeleteEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private UUID id;
 
     private String name;
