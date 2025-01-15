@@ -4,6 +4,7 @@ import com.system.estoque.dtos.ItemDTO;
 import com.system.estoque.dtos.PageDTO;
 import com.system.estoque.entities.Item;
 import com.system.estoque.exeptions.BadRequestException;
+import com.system.estoque.exeptions.NotFoundException;
 import com.system.estoque.mappers.ItemMapper;
 import com.system.estoque.repositories.ItemRepository;
 import com.system.estoque.services.ItemService;
@@ -27,7 +28,8 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public PageDTO<ItemDTO> findAll(String search, Pageable pageable) {
-        Specification<Item> spec = Specification.where(ItemSpecification.hasNameContaining(search));
+        Specification<Item> spec = Specification.where(ItemSpecification.isNotDeleted())
+                .and(ItemSpecification.hasNameContaining(search));
 
         Page<Item> itemPage = itemRepository.findAll(spec, pageable);
 
@@ -66,8 +68,8 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     @Transactional
-    public ItemDTO update(Long id, ItemDTO itemDTO) {
-        Item item = getItem(id);
+    public ItemDTO update(ItemDTO itemDTO) {
+        Item item = getItem(itemDTO.getId());
 
         itemMapper.partialUpdate(itemDTO, item);
         itemRepository.save(item);
@@ -84,8 +86,34 @@ public class ItemServiceImpl implements ItemService {
         itemRepository.save(item);
     }
 
-    private Item getItem(Long id) throws BadRequestException {
-        return itemRepository.findById(id).orElseThrow(()
-                -> new BadRequestException("Item not found"));
+    @Override
+    @Transactional
+    public void enable(Long id) {
+        Item item = getItem(id);
+
+        if (item.getActive()) {
+            throw new BadRequestException("Item already active");
+        }
+
+        item.setActive(true);
+
+        itemRepository.save(item);
+
+    }
+
+    @Override
+    @Transactional
+    public void disable(Long id) {
+        Item item = getItem(id);
+
+        item.setActive(false);
+
+        itemRepository.save(item);
+
+    }
+
+    private Item getItem(Long id) throws NotFoundException {
+        return itemRepository.findByIdAndDeletedAtIsNull(id).orElseThrow(()
+                -> new NotFoundException("Item not found"));
     }
 }

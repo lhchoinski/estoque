@@ -2,11 +2,7 @@ package com.system.estoque.services;
 
 import com.system.estoque.dtos.ItemDTO;
 import com.system.estoque.dtos.PageDTO;
-import com.system.estoque.entities.Item;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-
-import java.util.List;
 
 public interface ItemService {
 
@@ -16,8 +12,12 @@ public interface ItemService {
 
     ItemDTO findById(Long id);
 
-    ItemDTO update(Long id, ItemDTO item);
+    ItemDTO update(ItemDTO item);
 
     void delete(Long id);
+
+    void enable(Long id);
+
+    void disable(Long id);
 
 }

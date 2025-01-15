@@ -34,7 +34,7 @@ public class UserController {
         return ResponseEntity.ok(userService.create(userDto));
     }
 
-    @Operation(summary = "Find by ID", description = "Find user by ID")
+    @Operation(summary = "Find by id", description = "Find user by id")
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> findById(@PathVariable("id") UUID id) {
         return ResponseEntity.ok(userService.findUserById(id));
