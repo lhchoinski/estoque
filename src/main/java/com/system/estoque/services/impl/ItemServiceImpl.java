@@ -1,6 +1,6 @@
 package com.system.estoque.services.impl;
 
-import com.system.estoque.dtos.ItemDTO;
+import com.system.estoque.dtos.entities.ItemDTO;
 import com.system.estoque.dtos.PageDTO;
 import com.system.estoque.entities.Item;
 import com.system.estoque.exeptions.BadRequestException;
@@ -81,6 +81,11 @@ public class ItemServiceImpl implements ItemService {
     @Transactional
     public void delete(Long id) {
         Item item = getItem(id);
+
+        if (item.getActive()) {
+            throw new BadRequestException("Item is still active");
+        }
+
         item.setDeletedAt(LocalDateTime.now());
 
         itemRepository.save(item);

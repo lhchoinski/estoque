@@ -1,10 +1,10 @@
 package com.system.estoque.controllers;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import com.system.estoque.dtos.entities.ItemDTO;
 import com.system.estoque.dtos.PageDTO;
+import com.system.estoque.dtos.entities.SupplierDTO;
 import com.system.estoque.dtos.groups.AppGroup;
-import com.system.estoque.services.ItemService;
+import com.system.estoque.services.SupplierService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -16,77 +16,77 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("api/item")
+@RequestMapping("api/supplier")
 @RequiredArgsConstructor
-@Tag(name = "Item")
-public class ItemController {
+@Tag(name = "Supplier")
+public class SupplierController {
 
-    private final ItemService itemService;
+    private final SupplierService supplierService;
 
-    @Operation(summary = "Find all", description = "Find all items")
+    @Operation(summary = "Find all", description = "Find all suppliers")
     @GetMapping
-    public PageDTO<ItemDTO> findAll(
+    public PageDTO<SupplierDTO> findAll(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(required = false) String search
     ) {
         Pageable pageable = PageRequest.of(page, size);
-        return itemService.findAll(search, pageable);
+        return supplierService.findAll(search, pageable);
     }
 
-    @Operation(summary = "Create", description = "Create item")
+    @Operation(summary = "Create", description = "Create supplier")
     @PostMapping
     @JsonView(AppGroup.Response.class)
-    public ResponseEntity<ItemDTO> create(
+    public ResponseEntity<SupplierDTO> create(
             @RequestBody
             @Valid
             @JsonView(AppGroup.Request.class)
-            ItemDTO itemDTO
+            SupplierDTO supplierDTO
     ) {
 
-        return ResponseEntity.ok(itemService.create(itemDTO));
+        return ResponseEntity.ok(supplierService.create(supplierDTO));
     }
 
-    @Operation(summary = "Find by id", description = "Find item by id")
+    @Operation(summary = "Find by id", description = "Find supplier by id")
     @GetMapping("/{id}")
     @JsonView(AppGroup.ResponsePage.class)
-    public ResponseEntity<ItemDTO> findById(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(itemService.findById(id));
+    public ResponseEntity<SupplierDTO> findById(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(supplierService.findById(id));
     }
 
-    @Operation(summary = "Update", description = "Update item")
+    @Operation(summary = "Update", description = "Update supplier")
     @PutMapping("/{id}")
-    public ResponseEntity<ItemDTO> update(
+    public ResponseEntity<SupplierDTO> update(
             @PathVariable("id") Long id,
             @Validated(AppGroup.Request.class)
             @RequestBody
             @JsonView(AppGroup.Request.class)
-            ItemDTO itemDTO
+            SupplierDTO supplierDTO
     ) {
-        itemDTO.setId(id);
+        supplierDTO.setId(id);
 
-        return ResponseEntity.ok(itemService.update(itemDTO));
+        return ResponseEntity.ok(supplierService.update(supplierDTO));
     }
 
-    @Operation(summary = "Delete", description = "Delete item")
+    @Operation(summary = "Delete", description = "Delete supplier")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
-        itemService.delete(id);
+        supplierService.delete(id);
 
         return ResponseEntity.ok().build();
     }
 
-    @Operation(summary = "Enable", description = "Enable item")
+    @Operation(summary = "Enable", description = "Enable supplier")
     @PutMapping({"/{id}/enable"})
     public ResponseEntity<Void> enable(@PathVariable("id") Long id) {
-        itemService.enable(id);
+        supplierService.enable(id);
         return ResponseEntity.ok().build();
     }
 
-    @Operation(summary = "Disable", description = "Disable item")
+    @Operation(summary = "Disable", description = "Disable supplier")
     @PutMapping({"/{id}/disable"})
     public ResponseEntity<Void> disable(@PathVariable("id") Long id) {
-        itemService.disable(id);
+        supplierService.disable(id);
         return ResponseEntity.ok().build();
     }
 }

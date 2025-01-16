@@ -13,7 +13,7 @@ public class Supplier extends BaseSoftDeleteEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     private String name;
 
@@ -24,5 +24,7 @@ public class Supplier extends BaseSoftDeleteEntity {
     private String phone;
 
     private String email;
+
+    private Boolean active;
 
 }

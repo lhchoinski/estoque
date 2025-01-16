@@ -1,6 +1,6 @@
 package com.system.estoque.mappers;
 
-import com.system.estoque.dtos.UserDTO;
+import com.system.estoque.dtos.entities.UserDTO;
 import com.system.estoque.entities.User;
 import org.mapstruct.*;
 

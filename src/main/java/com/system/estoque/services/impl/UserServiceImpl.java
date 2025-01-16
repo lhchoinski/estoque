@@ -1,6 +1,6 @@
 package com.system.estoque.services.impl;
 
-import com.system.estoque.dtos.UserDTO;
+import com.system.estoque.dtos.entities.UserDTO;
 import com.system.estoque.entities.User;
 import com.system.estoque.exeptions.BadRequestException;
 import com.system.estoque.mappers.UserMapper;

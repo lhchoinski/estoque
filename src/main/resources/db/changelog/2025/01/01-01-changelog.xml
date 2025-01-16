@@ -96,6 +96,9 @@
             <column name="email" type="VARCHAR(255)">
                 <constraints nullable="true"/>
             </column>
+            <column defaultValueBoolean="true" name="active" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
             <column name="version" type="INT">
                 <constraints nullable="false"/>
             </column>
@@ -121,7 +124,7 @@
             <column name="date_entry" type="DATE">
                 <constraints nullable="false"/>
             </column>
-            <column name="supplier" type="VARCHAR(255)">
+            <column name="supplier_id" type="VARCHAR(255)">
                 <constraints nullable="true"/>
             </column>
         </createTable>

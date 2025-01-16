@@ -1,7 +1,7 @@
 package com.system.estoque.controllers;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import com.system.estoque.dtos.UserDTO;
+import com.system.estoque.dtos.entities.UserDTO;
 import com.system.estoque.dtos.groups.AppGroup;
 import com.system.estoque.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
