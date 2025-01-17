@@ -1,6 +1,7 @@
 package com.system.estoque.entities;
 
 
+import com.system.estoque.entities.base.BaseSoftDeleteEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,7 +12,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Table(name = "stock_entries")
-public class StockEntry {
+public class StockEntry extends BaseSoftDeleteEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

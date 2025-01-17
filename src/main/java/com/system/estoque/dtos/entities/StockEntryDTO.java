@@ -22,14 +22,14 @@ public class StockEntryDTO implements Serializable {
     @NotNull(message = "{required_message}")
     private Long itemId;
 
-    @JsonView({AppGroup.Response.class, AppGroup.ResponsePage.class, AppGroup.Request.class})
-    @NotNull(message = "{required_message}")
-    private Long quantity;
-
     @JsonView({AppGroup.Response.class, AppGroup.ResponsePage.class})
     private SupplierDTO supplier;
 
     @JsonView({AppGroup.Request.class})
     @NotNull(message = "{required_message}")
     private Long supplierId;
+
+    @JsonView({AppGroup.Response.class, AppGroup.ResponsePage.class, AppGroup.Request.class})
+    @NotNull(message = "{required_message}")
+    private Long quantity;
 }

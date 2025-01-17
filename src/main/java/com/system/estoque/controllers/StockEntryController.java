@@ -36,7 +36,7 @@ public class StockEntryController {
 
     @Operation(summary = "Create", description = "Create stockEntry")
     @PostMapping
-    @JsonView(AppGroup.Response.class)
+    @JsonView(AppGroup.ResponsePage.class)
     public ResponseEntity<StockEntryDTO> create(
             @RequestBody
             @Valid
