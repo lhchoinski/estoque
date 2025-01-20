@@ -63,7 +63,6 @@ public class StockExitServiceImpl implements StockExitService {
         stockExit.setItem(item);
         stockExit.setUser(user);
         stockExit.setQuantity(stockExitDTO.getQuantity());
-        stockExit.setObservation("aaa");
 
         if (item.getQuantity() <= 0) {
             throw new BadRequestException("There are no items in stock");

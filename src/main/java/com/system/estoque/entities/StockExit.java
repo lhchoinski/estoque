@@ -36,6 +36,4 @@ public class StockExit extends BaseSoftDeleteEntity {
     @Column(name = "user_id")
     private UUID userId;
 
-    private String observation;
-
 }

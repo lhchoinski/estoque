@@ -11,6 +11,7 @@ public class RabbitMQConfig {
 
     public static final String EXCHANGE_NAME = "stock_exchange";
     public static final String QUEUE_NAME = "stock_queue";
+    public static final String STOCK_DEAD_QUEUE = "stock_dead_queue";
 
     @Bean
     public TopicExchange exchange() {
@@ -23,8 +24,18 @@ public class RabbitMQConfig {
     }
 
     @Bean
+    public Queue stockDeadQueue() {
+        return new Queue(STOCK_DEAD_QUEUE, true, false, false);
+    }
+
+    @Bean
     public Binding binding(Queue queue, TopicExchange exchange) {
         return BindingBuilder.bind(queue).to(exchange).with("stock.#");
+    }
+
+    @Bean
+    public Binding stockDeadBinding() {
+        return BindingBuilder.bind(stockDeadQueue()).to(exchange()).with(STOCK_DEAD_QUEUE);
     }
 
     @Bean
