@@ -10,5 +10,5 @@ import java.util.Optional;
 @Repository
 public interface StockEntryRepository extends JpaRepository<StockEntry, Long>, JpaSpecificationExecutor<StockEntry> {
 
-//    Optional<StockEntry> findByIdAndDeletedAtIsNull(Long id);
+    Optional<StockEntry> findByIdAndDeletedAtIsNull(Long id);
 }

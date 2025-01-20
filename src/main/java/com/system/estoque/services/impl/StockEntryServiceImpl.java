@@ -61,6 +61,10 @@ public class StockEntryServiceImpl implements StockEntryService {
         stockEntry.setItem(item);
         stockEntry.setSupplier(supplier);
         stockEntry.setQuantity(stockEntryDTO.getQuantity());
+
+        Long updateQuantity = item.getQuantity() + stockEntry.getQuantity();
+
+        item.setQuantity(updateQuantity);
         stockEntry.setDate_entry(LocalDateTime.now());
 
         stockEntryRepository.save(stockEntry);
@@ -99,7 +103,7 @@ public class StockEntryServiceImpl implements StockEntryService {
     }
 
     private StockEntry getStockEntry(Long id) throws NotFoundException {
-        return stockEntryRepository.findById(id).orElseThrow(()
+        return stockEntryRepository.findByIdAndDeletedAtIsNull(id).orElseThrow(()
                 -> new NotFoundException("StockEntry not found"));
     }
 

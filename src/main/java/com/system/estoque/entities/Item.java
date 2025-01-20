@@ -19,7 +19,9 @@ public class Item extends BaseSoftDeleteEntity {
 
     private String description;
 
-    private String price;
+    private Double price;
+
+    private Long quantity;
 
     private Boolean active;
 }

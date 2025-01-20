@@ -7,28 +7,37 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Getter
 @Setter
-public class ItemDTO implements Serializable {
+public class StockExitDTO implements Serializable {
 
     @JsonView({AppGroup.Response.class, AppGroup.ResponsePage.class})
     private Long id;
 
+    @JsonView({AppGroup.Response.class, AppGroup.ResponsePage.class})
+    private ItemDTO item;
+
+    @JsonView({AppGroup.Request.class})
+    @NotNull(message = "{required_message}")
+    private Long itemId;
+
     @JsonView({AppGroup.Response.class, AppGroup.ResponsePage.class, AppGroup.Request.class})
     @NotNull(message = "{required_message}")
-    private String name;
+    private Long quantity;
 
-    @JsonView({AppGroup.Response.class, AppGroup.ResponsePage.class, AppGroup.Request.class})
-    private String description;
+    @JsonView({AppGroup.Response.class, AppGroup.ResponsePage.class})
+    private LocalDateTime date_exit;
 
-    @JsonView({AppGroup.Response.class, AppGroup.ResponsePage.class, AppGroup.Request.class})
+    @JsonView({AppGroup.Response.class, AppGroup.ResponsePage.class})
+    private UserDTO user;
+
+    @JsonView({AppGroup.Request.class})
     @NotNull(message = "{required_message}")
-    private String price;
+    private UUID userId;
 
-    @JsonView({AppGroup.Response.class, AppGroup.ResponsePage.class})
-    private String quantity;
-
-    @JsonView({AppGroup.Response.class, AppGroup.ResponsePage.class})
-    private Boolean active;
+    @JsonView({AppGroup.Response.class, AppGroup.ResponsePage.class, AppGroup.Request.class})
+    private String observation;
 }
