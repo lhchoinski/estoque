@@ -11,6 +11,7 @@ import com.system.estoque.services.ItemService;
 import com.system.estoque.services.specification.ItemSpecification;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -42,6 +43,20 @@ public class ItemServiceImpl implements ItemService {
                 itemPage.getNumber(),
                 itemPage.getSize()
         );
+    }
+
+    @RabbitListener(queues = "stock.queue")
+    public String processStock(String stockRequest) {
+        try {
+            // Simulação da atualização de estoque
+            System.out.println("Atualizando estoque para: " + stockRequest);
+
+            // Retorno de sucesso
+            return "Estoque atualizado: " + stockRequest;
+        } catch (Exception e) {
+            // Retorno de erro
+            return "error: " + e.getMessage();
+        }
     }
 
     @Override

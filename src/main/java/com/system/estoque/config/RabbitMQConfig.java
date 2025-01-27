@@ -1,46 +1,54 @@
 package com.system.estoque.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.amqp.core.*;
-import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitMQConfig {
 
-    public static final String EXCHANGE_NAME = "stock_exchange";
-    public static final String QUEUE_NAME = "stock_queue";
-    public static final String STOCK_DEAD_QUEUE = "stock_dead_queue";
-
     @Bean
-    public TopicExchange exchange() {
-        return new TopicExchange(EXCHANGE_NAME);
+    public DirectExchange exchange() {
+        return new DirectExchange("ecommerce.exchange");
     }
 
     @Bean
-    public Queue queue() {
-        return new Queue(QUEUE_NAME, true);
+    public Queue salesQueue() {
+        return new Queue("sales.queue", true);  // Fila Sales
     }
 
     @Bean
-    public Queue stockDeadQueue() {
-        return new Queue(STOCK_DEAD_QUEUE, true, false, false);
+    public Queue paymentQueue() {
+        return new Queue("payment.queue", true);  // Fila Payment
     }
 
     @Bean
-    public Binding binding(Queue queue, TopicExchange exchange) {
-        return BindingBuilder.bind(queue).to(exchange).with("stock.#");
+    public Queue stockQueue() {
+        return new Queue("stock.queue", true);  // Fila Stock
     }
 
     @Bean
-    public Binding stockDeadBinding() {
-        return BindingBuilder.bind(stockDeadQueue()).to(exchange()).with(STOCK_DEAD_QUEUE);
+    public Queue replyToQueue() {
+        return new Queue("amq.rabbitmq.reply-to", false); // Fila de resposta
     }
 
     @Bean
-    public Jackson2JsonMessageConverter messageConverter() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        return new Jackson2JsonMessageConverter(objectMapper);
+    public Binding salesBinding(Queue salesQueue, DirectExchange exchange) {
+        return BindingBuilder.bind(salesQueue).to(exchange).with("sales.key");
+    }
+
+    @Bean
+    public Binding paymentBinding(Queue paymentQueue, DirectExchange exchange) {
+        return BindingBuilder.bind(paymentQueue).to(exchange).with("payment.key");
+    }
+
+    @Bean
+    public Binding stockBinding(Queue stockQueue, DirectExchange exchange) {
+        return BindingBuilder.bind(stockQueue).to(exchange).with("stock.key");
+    }
+
+    @Bean
+    public Binding replyToBinding(Queue replyToQueue, DirectExchange exchange) {
+        return BindingBuilder.bind(replyToQueue).to(exchange).with("reply.key");
     }
 }
