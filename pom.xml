@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.system.estoque</groupId>
-    <artifactId>estoque</artifactId>
+    <artifactId>stock-api</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>estoque</name>
-    <description>API de Estoque</description>
+    <name>stock-api</name>
+    <description>STOCK API</description>
     <url/>
     <licenses>
         <license/>

@@ -34,19 +34,6 @@ public class StockExitController {
         return stockExitService.findAll(search, pageable);
     }
 
-    @Operation(summary = "Create", description = "Create stockExit")
-    @PostMapping
-    @JsonView(AppGroup.ResponsePage.class)
-    public ResponseEntity<StockExitDTO> create(
-            @RequestBody
-            @Valid
-            @JsonView(AppGroup.Request.class)
-            StockExitDTO stockExitDTO
-    ) {
-
-        return ResponseEntity.ok(stockExitService.create(stockExitDTO));
-    }
-
     @Operation(summary = "Find by id", description = "Find stockExit by id")
     @GetMapping("/{id}")
     @JsonView(AppGroup.ResponsePage.class)

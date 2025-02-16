@@ -14,10 +14,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 })
 @EnableCaching
 @SpringBootApplication
-public class EstoqueApplication {
+public class StockApiApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(EstoqueApplication.class, args);
+        SpringApplication.run(StockApiApplication.class, args);
     }
 
 }

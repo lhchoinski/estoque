@@ -1,11 +1,12 @@
 package com.system.estoque.services.impl;
 
 import com.system.estoque.dtos.PageDTO;
+import com.system.estoque.dtos.SaleDTO;
+import com.system.estoque.dtos.SaleItemDTO;
 import com.system.estoque.dtos.entities.StockExitDTO;
 import com.system.estoque.entities.Item;
 import com.system.estoque.entities.StockExit;
 import com.system.estoque.entities.User;
-import com.system.estoque.exeptions.BadRequestException;
 import com.system.estoque.exeptions.NotFoundException;
 import com.system.estoque.mappers.StockExitMapper;
 import com.system.estoque.repositories.ItemRepository;
@@ -15,13 +16,18 @@ import com.system.estoque.services.StockExitService;
 import com.system.estoque.services.specification.StockExitSpecification;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.messaging.handler.annotation.Headers;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -32,6 +38,8 @@ public class StockExitServiceImpl implements StockExitService {
     private final StockExitMapper stockExitMapper;
     private final ItemRepository itemRepository;
     private final UserRepository userRepository;
+
+    private final RabbitTemplate rabbitTemplate;
 
     @Override
     public PageDTO<StockExitDTO> findAll(String search, Pageable pageable) {
@@ -53,33 +61,35 @@ public class StockExitServiceImpl implements StockExitService {
 
     @Override
     @Transactional
-    public StockExitDTO create(StockExitDTO stockExitDTO) {
+    @RabbitListener(queues = "stock.queue")
+    public void create(SaleDTO saleDTO, @Headers Map<String, Object> headers) {
 
-        User user = getUser(stockExitDTO.getUserId());
-        Item item = getItem(stockExitDTO.getItemId());
+        System.out.println("Stock: Atualizando estoque para a venda: " + saleDTO);
 
-        StockExit stockExit = stockExitMapper.toEntity(stockExitDTO);
+        List<StockExitDTO> stockExitDTOList = new ArrayList<>();
 
-        stockExit.setItem(item);
-        stockExit.setUser(user);
-        stockExit.setQuantity(stockExitDTO.getQuantity());
+        for (SaleItemDTO item : saleDTO.getItems()) {
+            StockExit stockExit = new StockExit();
 
-        if (item.getQuantity() <= 0) {
-            throw new BadRequestException("There are no items in stock");
+            stockExit.setItemId(item.getId());
+            stockExit.setUserId(saleDTO.getUser().getId());
+            stockExit.setQuantity(item.getQuantity());
+            stockExit.setDate_exit(LocalDateTime.now());
+
+            stockExit = stockExitRepository.save(stockExit);
+
+            stockExitDTOList.add(stockExitMapper.toDto(stockExit));
         }
 
-        if (stockExitDTO.getQuantity() > item.getQuantity()) {
-            throw new BadRequestException("Quantity is not sufficient in stock");
+        // 🔹 Pegando o 'replyTo' dinâmico da mensagem recebida
+        String replyTo = (String) headers.get("amqp_replyTo");
+
+        if (replyTo != null) {
+            rabbitTemplate.convertAndSend("", replyTo, stockExitDTOList);
+            System.out.println("Stock: Resposta enviada para " + replyTo);
+        } else {
+            System.err.println("Erro: replyTo não encontrado, não foi possível enviar resposta.");
         }
-
-        Long updateQuantity = item.getQuantity() - stockExit.getQuantity();
-
-        item.setQuantity(updateQuantity);
-        stockExit.setDate_exit(LocalDateTime.now());
-
-        stockExitRepository.save(stockExit);
-
-        return stockExitMapper.toDto(stockExit);
     }
 
     @Override
