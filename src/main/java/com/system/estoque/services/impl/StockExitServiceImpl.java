@@ -66,9 +66,15 @@ public class StockExitServiceImpl implements StockExitService {
 
         System.out.println("Stock: Atualizando estoque para a venda: " + saleDTO);
 
-        List<StockExitDTO> stockExitDTOList = new ArrayList<>();
-
+//        List<StockExitDTO> stockExitDTOList = new ArrayList<>();
+//
         for (SaleItemDTO item : saleDTO.getItems()) {
+
+            if (item == null) {
+                System.err.println("Erro: item da venda é null");
+                break;
+            }
+
             StockExit stockExit = new StockExit();
 
             stockExit.setItemId(item.getId());
@@ -76,20 +82,19 @@ public class StockExitServiceImpl implements StockExitService {
             stockExit.setQuantity(item.getQuantity());
             stockExit.setDate_exit(LocalDateTime.now());
 
-            stockExit = stockExitRepository.save(stockExit);
+            stockExitRepository.save(stockExit);
 
-            stockExitDTOList.add(stockExitMapper.toDto(stockExit));
+//            stockExitDTOList.add(stockExitMapper.toDto(stockExit));
         }
-
-        // 🔹 Pegando o 'replyTo' dinâmico da mensagem recebida
-        String replyTo = (String) headers.get("amqp_replyTo");
-
-        if (replyTo != null) {
-            rabbitTemplate.convertAndSend("", replyTo, stockExitDTOList);
-            System.out.println("Stock: Resposta enviada para " + replyTo);
-        } else {
-            System.err.println("Erro: replyTo não encontrado, não foi possível enviar resposta.");
-        }
+//
+//        String replyTo = (String) headers.get("amqp_replyTo");
+//
+//        if (replyTo != null) {
+//            rabbitTemplate.convertAndSend("", replyTo, stockExitDTOList);
+//            System.out.println("Stock: Resposta enviada para " + replyTo);
+//        } else {
+//            System.err.println("Erro: replyTo não encontrado, não foi possível enviar resposta.");
+//        }
     }
 
     @Override

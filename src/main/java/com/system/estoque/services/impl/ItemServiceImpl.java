@@ -45,20 +45,6 @@ public class ItemServiceImpl implements ItemService {
         );
     }
 
-    @RabbitListener(queues = "stock.queue")
-    public String processStock(String stockRequest) {
-        try {
-            // Simulação da atualização de estoque
-            System.out.println("Atualizando estoque para: " + stockRequest);
-
-            // Retorno de sucesso
-            return "Estoque atualizado: " + stockRequest;
-        } catch (Exception e) {
-            // Retorno de erro
-            return "error: " + e.getMessage();
-        }
-    }
-
     @Override
     @Transactional
     public ItemDTO create(ItemDTO itemDTO) {
